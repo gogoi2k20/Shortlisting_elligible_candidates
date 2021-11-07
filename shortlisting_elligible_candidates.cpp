@@ -1,7 +1,7 @@
 /* This is a c++ program that gonna help to shortlist the applied candidates according to their CGPA
 Rules for selection
-  1) The student who comes first has some extra preference
- 2) The CGPA of the applicant should be at least 7.00 to get shortlisted
+1) The student who comes first has some extra preference
+2) The CGPA of the applicant should be at least 7.00 to get shortlisted
 3) If an applicant comes an apply but an applicant having more than or equal to CGPA already applied for the job then he won't be selected
 4) There will be search options to check whether an applicant has been selected or not
 5) There will be option if the user wants so print the list of applicants
@@ -21,35 +21,31 @@ Concepts used
 //later on search for the same on an efficient manner
 // The id number consists of lowercase English letters(a-z)
 #include <iostream>
-
 #include <map>
-
 #include <algorithm>
-
 #include <stdio.h>
-
 #include <vector>
-
 #include <fstream>
 
 using namespace std;
-
 // Class of Candidates(possesses three properties namely name, cgpa and id)
-class Candidates {
 
-  public:
-    string name;
+class Candidates
+{
+
+public:
+  string name;
 
   float cgpa;
 
   string id;
-
 };
 
-class Node {
+class Node
+{
 
-  public:
-    char c;
+public:
+  char c;
 
   bool isWord;
 
@@ -57,131 +53,111 @@ class Node {
 
   int terminating;
 
-  Node * children[26];
-
+  Node *children[26];
 };
 
-Node * getNode(char c) {
+Node *getNode(char c)
+{
 
-  Node * node = new Node();
+  Node *node = new Node();
 
-  node -> c = c;
+  node->c = c;
 
-  node -> Count = 0;
+  node->Count = 0;
 
-  node -> terminating = 0;
+  node->terminating = 0;
 
-  node -> isWord = false;
+  node->isWord = false;
 
   for (int i = 0; i < 26; i++)
 
   {
 
-    node -> children[i] = NULL;
-
+    node->children[i] = NULL;
   }
 
   return node;
-
 }
 
-class Trie {
+class Trie
+{
 
-  private:
-    Node * root;
+private:
+  Node *root;
 
-  public:
-    Trie() {
+public:
+  Trie()
+  {
 
-      root = getNode('\0');
-
-    }
-
-  void insert(string & word) {
-
-    Node * curr = root;
-
-    for (int i = 0; i < word.size(); i++)
-
-    {
-
-      char c = word[i];
-
-      if (curr -> children[c - 'a'] == NULL)
-
-        curr -> children[c - 'a'] = getNode(c);
-
-      curr = curr -> children[c - 'a'];
-
-      (curr -> Count) = (curr -> Count) + 1;
-
-    }
-
-    curr -> terminating = curr -> terminating + 1;
-
-    curr -> isWord = true;
-
+    root = getNode('\0');
   }
 
-  int search_count(string word) {
+  void insert(string &word)
+  {
 
-    Node * curr = root;
+    Node *curr = root;
 
-    for (int i = 0; i < word.size(); i++)
+    for (int i = 0; i < (int)word.size(); i++)
 
     {
 
       char c = word[i];
 
-      if (curr -> children[c - 'a'] == NULL)
+      if (curr->children[c - 'a'] == NULL)
+
+        curr->children[c - 'a'] = getNode(c);
+
+      curr = curr->children[c - 'a'];
+
+      (curr->Count) = (curr->Count) + 1;
+    }
+
+    curr->terminating = curr->terminating + 1;
+
+    curr->isWord = true;
+  }
+
+  int search_count(string word)
+  {
+
+    Node *curr = root;
+
+    for (int i = 0; i <(int) word.size(); i++)
+
+    {
+
+      char c = word[i];
+
+      if (curr->children[c - 'a'] == NULL)
 
         return 0;
 
-      curr = curr -> children[c - 'a'];
-
+      curr = curr->children[c - 'a'];
     }
 
-    return curr -> terminating;
-
+    return curr->terminating;
   }
 
-  void construct_trie(vector < string > & words) {
+  void construct_trie(vector<string> &words)
+  {
 
-    for (string & word: words)
+    for (string &word : words)
 
     {
 
       insert(word);
-
     }
-
   }
-
 };
 
-int
-main() {
+int main()
+{
 
-  cout <<
+  cout << "*****************************************************************************************************" << endl;
 
-    "*****************************************************************************************************"
+  cout << "   C++ Program to select a number of eligible candidates from a number of applied candidates: " << endl;
 
-    <<
-    endl;
-
-  cout <<
-
-    "   C++ Program to select a number of eligible candidates from a number of applied candidates: "
-
-    <<
-    endl;
-
-  cout <<
-
-    "*****************************************************************************************************"
-
-    <<
-    endl;
+  cout << "*****************************************************************************************************" << endl;
 
   cout << "Enter the number of applicants: " << endl;
 
@@ -189,28 +165,23 @@ main() {
 
   cin >> n;
 
-  multimap < float, string > mp;
+  multimap<float, string> mp;
 
-  multimap < string, float > mp_;
+  multimap<string, float> mp_;
 
   Trie trie;
 
-  cout << "Enter the expected number of applicants to be shortlisted: " <<
-
-    endl;
+  cout << "Enter the expected number of applicants to be shortlisted: " << endl;
 
   int m;
 
   cin >> m;
 
   float curr_minimum = 11.00; // as the maximum cgpa can be only upto 10
-  cout <<
+  cout << "Enter the student_id in first line and on next line name and CGPA of the applicant in < name CGPA > format : " << endl;
 
-    "Enter the student_id in first line and on next line name and CGPA of the applicant in < name CGPA > format : " <<
-    endl;
-
-  here:
-    while (n--and mp.size() < m)
+here:
+  while (n-- and mp.size() < m)
 
   {
 
@@ -227,18 +198,15 @@ main() {
 
     {
 
-      cout <<
-        "Seems like this applicant has already applied! Enter next candidates details!!!" <<
-        endl;
+      cout << "Seems like this applicant has already applied! Enter next candidates details!!!" << endl;
 
       goto here;
-
-    } else
+    }
+    else
 
     {
 
       trie.insert(id);
-
     }
 
     //cout << endl;
@@ -252,7 +220,7 @@ main() {
     // cout<<"Enter the corresponding CGPA: "<<endl;
     float cgpa;
 
-    scanf("%f", & cgpa);
+    scanf("%f", &cgpa);
 
     candidate.cgpa = cgpa;
 
@@ -262,53 +230,31 @@ main() {
 
     {
 
-      mp.insert({
-        cgpa,
-        name
-      });
+      mp.insert({cgpa, name});
 
-      mp_.insert({
-        name,
-        cgpa
-      });
+      mp_.insert({name,cgpa});
 
       curr_minimum = min(curr_minimum, cgpa);
-
-    } else if (cgpa > 7.5)
-
-    {
-
-      mp.insert({
-        cgpa,
-        name
-      });
-
-      mp_.insert({
-        name,
-        cgpa
-      });
-
-    } else if (cgpa <= 7.5 && cgpa > curr_minimum)
-
-    {
-
-      mp.insert({
-        cgpa,
-        name
-      });
-
-      mp_.insert({
-        name,
-        cgpa
-      });
-
     }
+    else if (cgpa > 7.5)
 
+    {
+
+      mp.insert({cgpa,name});
+
+      mp_.insert({name,cgpa});
+    }
+    else if (cgpa <= 7.5 && cgpa > curr_minimum)
+
+    {
+
+      mp.insert({cgpa,name});
+
+      mp_.insert({name,cgpa});
+    }
   }
 
-  cout <<
-
-    "Do you want to print the list of shortlisted candidates? Enter 'Y' for yes and 'N' for no: ";
+  cout << "Do you want to print the list of shortlisted candidates? Enter 'Y' for yes and 'N' for no: ";
 
   ofstream ofile("shortlisted_students.doc");
 
@@ -322,24 +268,17 @@ main() {
 
   {
 
-    for (auto it: mp)
+    for (auto it : mp)
 
     {
 
       ofile << it.second << "  " << it.first << endl;
 
       cout << it.second << " " << it.first << endl;
-
     }
-
   }
 
-  cout <<
-
-    "Do you want to check whether you got shortlisted or not? Enter 'Y' for 'YES' and 'N' for 'NO' : "
-
-    <<
-    endl;
+  cout << "Do you want to check whether you got shortlisted or not? Enter 'Y' for 'YES' and 'N' for 'NO' : " << endl;
 
   cin >> choice;
 
@@ -357,20 +296,15 @@ main() {
 
     {
 
-      auto it = mp_.find(name);
-
       cout << "**************Congratulations! you are shortlisted!!!**************" << endl;
-
-    } else
+    }
+    else
 
     {
 
       cout << "**************Unfortunately you are not shortlisted!!!**************" << endl;
-
     }
-
   }
 
   return 0;
-
 }
